@@ -1,5 +1,5 @@
 package TicTac;
 
-public class UserGame {
+public class UserGame extends Game {
 
 }

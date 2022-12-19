@@ -1,7 +1,5 @@
 package TicTac;
 
-public enum Player {
-	X,
-	O
+public abstract class Player {
+
 }
-//The game has 2 players - X and O.
