@@ -5,5 +5,10 @@ public abstract class Game {
 	
 	public void printBoard() {
 
-	}	
+	}
+	
+	enum Level {
+		  X,
+		  O
+		}
 }
