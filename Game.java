@@ -1,5 +1,7 @@
-package TicTac;
+//Author1: Ninel Benush 324699826
+//Author2: Moraz Tamir 208397455
 
+package TicTac;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 

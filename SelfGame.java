@@ -1,3 +1,6 @@
+//Author1: Ninel Benush 324699826
+//Author2: Moraz Tamir 208397455
+
 package TicTac;
 import java.util.ArrayList;
 
@@ -12,27 +15,22 @@ public class SelfGame extends Game {
 		super.printBoard();
 	}
 
-	
 	public void resetBord() {
 		super.resetBord();
 	}
 
-	
 	public synchronized PlayerType getTurn() {
 		return super.getTurn();
 	}
 
-	
 	public ArrayList<CellCoordinates> getFreeCells() {
 		return super.getFreeCells();
 	}
-
 	
 	public boolean isFullBoard() {
 		return super.isFullBoard();
 	}
 
-	
 	public synchronized void setCell(PlayerType type, int row, int col) {
 		try {
 		while (type != getTurn())
