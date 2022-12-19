@@ -4,37 +4,44 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 public abstract class Game {
-	private static int round =0;
 	enum PlayerType {
 		FREE,
 		X,
 		O
 	}
-	private PlayerType [][] gameBoard;
-	private PlayerType turn;
+	protected PlayerType [][] gameBoard;
+	protected PlayerType turn;
+    public boolean gameOver;
+
 	
 	public Game() {
 		gameBoard = new PlayerType [3][3];
 		resetBord(); //Update the board for free in the start - clean.
-		round++;
+		gameOver = false;
 	}//Constructor for the board
+	
+	/*
+	 * 	[0][0] , [0][1] , [0][2]
+	 * 	[1][0] , [1][1] , [1][2]
+	 * 	[2][0] , [2][1] , [2][2]
+	 */
 
 	public synchronized void printBoard() {
-		System.out.println("_____________");
+		System.out.println(" ----+---+----");
 		for (int i = 0 ; i < 3 ; i++) {
-			System.out.println("|");
+			System.out.print(" | ");
 			for (int j = 0 ; j < 3 ; j++) {
 				if (gameBoard[i][j] == PlayerType.FREE)
-					System.out.println("?");
+					System.out.print("?");
 				else if (gameBoard[i][j] == PlayerType.X)
-					System.out.println("X");
+					System.out.print("X");
 				else if (gameBoard[i][j] == PlayerType.O)
-					System.out.println("O");
+					System.out.print("O");
 				else 
 					System.out.println(gameBoard[i][j]);
-				System.out.println("|");
+				System.out.print(" | ");
 			}
-			System.out.println("_____________");
+			System.out.print("\n ----+---+----");
 		}
 	}
 	public void resetBord() {
@@ -54,8 +61,8 @@ public abstract class Game {
 */
 	public  PlayerType getTurn() {
 		//use enum Turn	
-        return turn;
-       }//Returns the type of player it turns to play
+		return turn;
+	}//Returns the type of player it turns to play
 	
 	public ArrayList <CellCoordinates> getFreeCells() {
 		ArrayList <CellCoordinates> ans = new ArrayList <CellCoordinates> ();
@@ -75,6 +82,7 @@ public abstract class Game {
 					return false;
 			}
 		}
+		gameOver = true;
 		return true;
 	} //Check if the board full
 	
@@ -99,6 +107,39 @@ public abstract class Game {
 			return gameBoard[row][col];
 		throw new InvalidParameterException("Wrong index");
 	}//Getting the cell status
-	
-	
 }
+
+//public static char[][] getClean2DCharArray(int rows, int columns) {
+//    char boxNumber = '1';
+//    char[][] arr = new char[rows][columns];
+//    for (int i = 0; i < rows; i++) {
+//        for (int j = 0; j < columns; j++) {
+//            arr[i][j] = boxNumber++;
+//        }
+//    }
+//    return arr;
+//}
+//
+///**
+// * Print the game matrix
+// * @param array The game matrix 2D array
+// */
+//public static void printMatrix(char[][] array){
+//    for (int i = 0; i < array.length; i++) {
+//        for (int j = 0; j < array[0].length; j++) {
+//            System.out.print(" " + array[i][j] + " ");
+//            if(j != array.length-1){
+//                printMatrix("|");
+//            }
+//        }
+//        println("");
+//
+//        if(i != array.length-1)
+//            for (int j = 0; j < 11; j++) {
+//                printMatrix("-");
+//            }
+//        println("");
+//    }
+//}
+
+

@@ -12,10 +12,10 @@ public class CellCoordinates {
 	public int getRow() {
 		return ROW;
 	}
-
+	
 	public CellCoordinates(int row, int col) {
 		COL = col;
 		ROW = row;
-	}
+	}	
 }
 
