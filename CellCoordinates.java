@@ -19,6 +19,10 @@ public class CellCoordinates {
 	public CellCoordinates(int row, int col) {
 		COL = col;
 		ROW = row;
-	}	
+	}
+	
+	public String toString() {
+        return "(" + ROW + ", " + COL + ")";
+    }
 }
 

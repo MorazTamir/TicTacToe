@@ -13,13 +13,10 @@ public abstract class Game {
 	}
 	protected PlayerType [][] gameBoard;
 	protected PlayerType turn;
-    public boolean gameOver;
-
 	
 	public Game() {
 		gameBoard = new PlayerType [3][3];
 		resetBord(); //Update the board for free in the start - clean.
-		gameOver = false;
 	}//Constructor for the board
 	
 	/*
@@ -84,7 +81,6 @@ public abstract class Game {
 					return false;
 			}
 		}
-		gameOver = true;
 		return true;
 	} //Check if the board full
 	
@@ -103,45 +99,69 @@ public abstract class Game {
 		}else
 			throw new InvalidParameterException("Wrong index");
 	}// set the state cell, and update player game.
-	
+		
 	public PlayerType getCell(int row, int col) {
 		if (row>=0 && row<3 && col>=0 && col<3) 
 			return gameBoard[row][col];
-		throw new InvalidParameterException("Wrong index");
+			throw new InvalidParameterException("Wrong index");
 	}//Getting the cell status
+	
+	public boolean isWon(PlayerType sign) {
+		//check rows
+		for (int i=0; i<3; i++) {
+			if ( gameBoard[i][0] != PlayerType.FREE &&
+					gameBoard[i][0] == gameBoard[i][1] && gameBoard[i][0] == gameBoard[i][3]) {
+				System.out.println(getCell(0,i) + " WIN!");
+				return true;
+			}
+			
+				//check col
+			else if ( gameBoard[0][i] != PlayerType.FREE &&
+					gameBoard[0][i] == gameBoard[1][i] && gameBoard[0][i] == gameBoard[3][i]) {
+				System.out.println(getCell(0,i) + " WIN!");
+				return true;
+			}
+		}
+		//diagonal
+		if(gameBoard[1][1] != PlayerType.FREE && ((gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) 
+				||(gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0])) ) {
+			System.out.println(getCell(1,1) + " WIN!");
+			return true;
+			
+		}
+		return false;
+	}
+	
+	//game is over when type win or board full
+	public boolean GameOver() {
+    	if ( isFullBoard() || isWon(PlayerType.X) || isWon(PlayerType.O) )
+    		return true;
+    	return false;
+	}
+	
+	//Check who won
+	public PlayerType getWinner() {
+        if (isWon(PlayerType.X))
+            return PlayerType.X;
+        else if (isWon(PlayerType.O))
+            return PlayerType.O;
+        else
+            return null;
+    }
+	
+	public void makeMove(CellCoordinates cell) {
+		if (gameBoard[cell.getRow()][cell.getCol()] == PlayerType.FREE) {
+			gameBoard[cell.getRow()][cell.getCol()] = turn;
+				if( turn == PlayerType.X )
+					turn = PlayerType.O ;
+				else 
+					turn = PlayerType.X;
+			printBoard();
+			System.out.println();
+		} else {
+	            System.out.println("This cell is already taken!");
+		}
+	}
 }
-
-//public static char[][] getClean2DCharArray(int rows, int columns) {
-//    char boxNumber = '1';
-//    char[][] arr = new char[rows][columns];
-//    for (int i = 0; i < rows; i++) {
-//        for (int j = 0; j < columns; j++) {
-//            arr[i][j] = boxNumber++;
-//        }
-//    }
-//    return arr;
-//}
-//
-///**
-// * Print the game matrix
-// * @param array The game matrix 2D array
-// */
-//public static void printMatrix(char[][] array){
-//    for (int i = 0; i < array.length; i++) {
-//        for (int j = 0; j < array[0].length; j++) {
-//            System.out.print(" " + array[i][j] + " ");
-//            if(j != array.length-1){
-//                printMatrix("|");
-//            }
-//        }
-//        println("");
-//
-//        if(i != array.length-1)
-//            for (int j = 0; j < 11; j++) {
-//                printMatrix("-");
-//            }
-//        println("");
-//    }
-//}
 
 

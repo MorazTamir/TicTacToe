@@ -12,30 +12,45 @@ public class SelfPlayer extends Player {
 	PlayerType player;
 	SelfGame game;
 	
-	public SelfPlayer(PlayerType player, SelfGame game) {
+	public SelfPlayer(PlayerType player) {
 		super(player);
-		this.game = game;
 	}
-
 	public void run() {
+        if (game == null) {
+            throw new IllegalStateException("Game is not set!");
+        }
+        chooseCell();
+    }
+	public void chooseCell() {
 		while (true) {
-			try {
-				Thread.currentThread().sleep(500);
-				if (this.player == game.getTurn())
-					if(!game.isFullBoard()) {
-						ArrayList<CellCoordinates> emptyCell = game.getFreeCells();
-						int i = rand.nextInt(emptyCell.size());
-						game.setCell(this.player, emptyCell.get(i).getRow(), emptyCell.get(i).getCol());
-						game.printBoard();
-					}else {
-						System.out.println("~Board is FULL~");
-						return;
-					}
-				if (game.isFullBoard()) 
-					return;
-				}catch (InterruptedException e) {
-					return;
-				}
-			}
-		}
-	}
+			while (game.getTurn() != getPlayerT()) {
+                try {
+                    synchronized (game) {
+                        game.wait();
+                        if (game.GameOver())
+                            break;
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+
+            synchronized (game) {
+                if (!game.GameOver()) {
+                    ArrayList<CellCoordinates> cellsFree = game.getFreeCells();
+                    //Save the empty cells using in the Game class
+                    int index = (int) (Math.random() * cellsFree.size());
+                    game.makeMove(cellsFree.get(index));
+                } else {
+                    // End the game and notify the other player
+                    game.notifyAll();
+                    break;
+                }
+                game.notifyAll();
+            }
+        }
+    }
+}
