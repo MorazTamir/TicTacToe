@@ -3,8 +3,6 @@
 
 package TicTac;
 import java.util.Scanner;
-import TicTac.Game.PlayerType;
-
 public class Main {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
@@ -13,17 +11,12 @@ public class Main {
 		int choice = in.nextInt();
 		switch(choice) {
 		  case 1:
-		    
+			  UserGame userGame = new UserGame();
+		      userGame.start();
 		    break;
 		  case 2:
-			  SelfGame theGame = new SelfGame();
-			  SelfPlayer p1 = new SelfPlayer(PlayerType.X, theGame);
-			  SelfPlayer p2 = new SelfPlayer(PlayerType.O, theGame);
-			  System.out.println("Start:");
-			  Thread t1 = new Thread (p1);
-			  Thread t2 = new Thread (p2);
-			  t1.start();
-			  t2.start();
+			  SelfGame selfGame = new SelfGame();
+			  selfGame.start();
 		    break;	
 		}
 		

@@ -15,6 +15,7 @@ public class SelfPlayer extends Player {
 	public SelfPlayer(PlayerType player) {
 		super(player);
 	}
+	
 	public void run() {
         if (game == null) {
             throw new IllegalStateException("Game is not set!");

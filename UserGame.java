@@ -4,15 +4,36 @@
 package TicTac;
 import java.util.ArrayList;
 
-import TicTac.Game.PlayerType;
-
 public class UserGame extends Game {
-	SelfPlayer player1;
-    UserPlayer player2; 
+	SelfPlayer player1 = new SelfPlayer(PlayerType.X);
+    UserPlayer player2 = new UserPlayer(PlayerType.O); 
 	
-	public UserGame(){
-		SelfPlayer player1 = new SelfPlayer(PlayerType.X);
-		UserPlayer player2 = new UserPlayer(PlayerType.O);	} //his turn
+	public void start() {
+    	player1.setGame(this);
+        player2.setGame(this);
+        Thread thread1 = new Thread(player1);
+        Thread thread2 = new Thread(player2);
+        thread1.start();
+        thread2.start();
+        
+        resetBord();
+    	printBoard();
+    	
+    	System.out.println("Start game!");
+        try {
+            thread1.join();
+            thread2.join();
+
+            if(isFullBoard()) {
+            	System.out.println("Winner: " + getWinner());
+                
+            } else {
+                System.out.println("Choose cell");
+            }
+        } catch (InterruptedException e) {
+        	return;
+        }
+	}
 	
 	public synchronized void printBoard() {
 		super.printBoard();
